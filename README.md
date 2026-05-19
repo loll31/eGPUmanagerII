@@ -1,4 +1,4 @@
-# **eGPU Manager for Windows**
+# **eGPU Manager II for Windows**
 
 A simple utility to solve stability issues with eGPU docks (like the Aoostar AG02 or others) on Windows, especially when the system enters sleep mode, standby, or the user session is locked.
 
@@ -22,6 +22,13 @@ In these scenarios, the eGPU dock may not handle the power state transition corr
 * **Simple UI**: A minimal interface to set the eGPU's InstanceId and view a real-time log of events.  
 * **Persistent Configuration**: Remembers your InstanceId between sessions.  
 * **Lightweight**: Built with C\# and Windows Forms, with minimal resource usage.
+* **Auto Scan PCIID**: Search PCIID for eGPU parent. (II)
+* **Persistent log**: Remembers your logs between sessions. (II)
+* **Persistent PCIID**: Remembers your parent PCIID between sessions. (II)
+* **Persistent windows size**: Keep windows size between launches. (II)
+* **Show GFX information**: Display eGPU card information. (II) 
+* **Run as a service**: Tool can be installed as Service from tray menu. (II) 
+
 
 ## **How to Compile and Use**
 
@@ -60,29 +67,9 @@ You need a unique identifier for your eGPU dock so the program knows which devic
 
 For a truly "set it and forget it" solution, you can run the eGPU Manager as a Windows Service. This ensures it starts automatically with your computer and runs in the background without needing a user to be logged in. The easiest way to do this is with a tool called **NSSM (the Non-Sucking Service Manager)**.
 
-1. **Download NSSM**: Go to the [NSSM download page](https://nssm.cc/download) and download the latest version. Extract the nssm.exe file (from the win64 folder) to a permanent location, for example C:\\NSSM\\.  
-2. **Place eGPUManager**: Copy your compiled eGPUManager.exe to a permanent folder, for instance C:\\Tools\\eGPUManager\\. Do not run it from the bin\\Debug folder.  
-3. **Open Command Prompt as Administrator**: Search for cmd in the Start Menu, right-click it, and select "Run as administrator".  
-4. **Install the Service**: Run the NSSM installer GUI with the following command. You can name the service whatever you like.  
-   C:\\NSSM\\nssm.exe install eGPUManager
+   With version II, you can install/unsinstall/start/stop the service eGPUManager from tray menu.
 
-5. **Configure the Service in NSSM**:  
-   * In the **Application** tab:  
-     * **Path**: Click the ... button and browse to your eGPUManager.exe (e.g., C:\\Tools\\eGPUManager\\eGPUManager.exe).  
-   * In the **Details** tab:  
-     * **Display name**: eGPU Manager Service  
-     * **Description**: Manages eGPU state for sleep/lock stability.  
-   * In the **Log on** tab:  
-     * Ensure **"Local System account"** is selected. This is required for the service to have the necessary permissions to manage hardware devices.  
-   * Click the **Install service** button.  
-6. **Set the InstanceId**: Because the service cannot show a window, you must configure the InstanceId manually before starting it.  
-   * Open the application (eGPUManager.exe) normally one last time (as administrator).  
-   * Enter your InstanceId and check "Enable Management". This saves the ID to the configuration file.  
-   * Close the application. The service will now be able to read this saved ID when it starts.  
-7. **Start the Service**: You can now start your new service.  
-   nssm start eGPUManager
-
-   Or, you can start it from the Windows Services panel (services.msc). The service will now start automatically every time you boot your computer.
+   Also, you can manage it from the Windows Services panel (services.msc). If activate, the service will now start automatically every time you boot your computer.
 
 ## **Troubleshooting**
 
