@@ -1,11 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>eGPUManager</PackageId>
+    <Version>26.5.1</Version>
+    <Authors>loll31</Authors>
+    <Description>Windows eGPU Manager utility</Description>
+    <PackageReleaseNotes>Version 26.5.1: service and CLI support</PackageReleaseNotes>
+    <PackageOutputPath>nupkg</PackageOutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup>
     <OutputType>WinExe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <PackageId>eGPUManager</PackageId>
+    <Version>26.5.1</Version>
+    <Authors>loll31</Authors>
+    <Company>loll31</Company>
+    <Description>Windows eGPU Manager utility for automatic eGPU device handling and service support.</Description>
+    <PackageReleaseNotes>Version 26.5.1: service and CLI support, persistent configuration, and publish packaging improvements.</PackageReleaseNotes>
+    <PackageOutputPath>nupkg</PackageOutputPath>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/loll31/eGPUmanagerII</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

@@ -92,8 +92,19 @@ This generates a standalone executable and supporting files in:
 
 For a smaller package that requires .NET to be installed on the target PC, omit `--self-contained true`.
 
-## **Running as a Windows Service (Advanced)**
+### **Optional: create a NuGet package**
 
+You can also generate a NuGet package from this project. Add package metadata to the project file, then run:
+
+```powershell
+dotnet pack -c Release
+```
+
+The generated package will appear in `nupkg\` or under `bin\Release\net10.0-windows\` depending on the project settings.
+
+> Note: NuGet is typically used for libraries. A WinExe project can still be packed, but app distribution is usually better with `dotnet publish`.
+
+## **Running as a Windows Service (Advanced)**n
 For a truly "set it and forget it" solution, run eGPU Manager as a Windows Service. This keeps it running in the background even when no user is logged in.
 
 ### Installing the service
