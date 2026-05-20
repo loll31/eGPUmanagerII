@@ -1,0 +1,40 @@
+name: Publish NuGet Package
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Pack
+        env:
+          GITHUB_REF_NAME: ${{ github.ref_name }}
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          dotnet restore
+          dotnet pack -c Release -o nupkg /p:Version=${VERSION}
+
+      - name: Publish to GitHub Packages
+        env:
+          GH_PACKAGES_PAT: ${{ secrets.GH_PACKAGES_PAT }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          if [ -z "${GH_PACKAGES_PAT}" ]; then
+            echo "Error: GH_PACKAGES_PAT secret is not set. Create a repository secret with a PAT that has 'write:packages'." >&2
+            exit 1
+          fi
+          dotnet nuget push nupkg/*.nupkg \
+            --source "https://nuget.pkg.github.com/${OWNER}/index.json" \
+            --api-key "${GH_PACKAGES_PAT}" \
+            --skip-duplicate
