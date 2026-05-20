@@ -29,8 +29,22 @@ In these scenarios, the eGPU dock may not handle the power state transition corr
 * **Show GFX information**: Display eGPU card information. (II) 
 * **Run as a service**: Tool can be installed as Service from tray menu. (II) 
 
+## **Command-Line Options**
 
-## **How to Compile and Use**
+The app supports command-line control for installation, service management, and admin elevation.
+
+* `--service`, `-s` - Start the app in service mode.
+* `--admin`, `-admin` - Restart the app with administrator privileges.
+* `--enable`, `-e` - Enable automatic eGPU management on startup.
+* `--disable`, `-d` - Disable automatic management.
+* `--pciid <id>`, `-p <id>` - Supply the eGPU InstanceId directly on launch.
+* `--status`, `-status` - Show the installed service status.
+* `--install`, `-i` - Install the Windows service.
+* `--uninstall`, `--remove`, `-u` - Uninstall the Windows service.
+* `--start` - Start the installed Windows service.
+* `--stop` - Stop the installed Windows service.
+
+> Example: `eGPUManager.exe --admin --install` installs the service with elevation.
 
 ### **Prerequisites**
 
@@ -63,13 +77,55 @@ You need a unique identifier for your eGPU dock so the program knows which devic
 3. Check the **"Enable Management"** box. The status icon in the system tray will turn green.  
 4. You can now minimize the application window. It will continue running in the background.
 
+### **Step 4: Package for delivery**
+
+To create a distributable package, publish the app in Release mode.
+
+```powershell
+cd c:\Users\laurent\devel\eGPUmanager
+dotnet publish -c Release -r win-x64 --self-contained true /p:PublishSingleFile=true /p:EnableCompressionInSingleFile=true
+```
+
+This generates a standalone executable and supporting files in:
+
+`bin\Release\net10.0-windows\win-x64\publish\`
+
+For a smaller package that requires .NET to be installed on the target PC, omit `--self-contained true`.
+
 ## **Running as a Windows Service (Advanced)**
 
-For a truly "set it and forget it" solution, you can run the eGPU Manager as a Windows Service. This ensures it starts automatically with your computer and runs in the background without needing a user to be logged in. The easiest way to do this is with a tool called **NSSM (the Non-Sucking Service Manager)**.
+For a truly "set it and forget it" solution, run eGPU Manager as a Windows Service. This keeps it running in the background even when no user is logged in.
 
-   With version II, you can install/unsinstall/start/stop the service eGPUManager from tray menu.
+### Installing the service
 
-   Also, you can manage it from the Windows Services panel (services.msc). If activate, the service will now start automatically every time you boot your computer.
+Use the command line with administrator rights:
+
+```powershell
+.\eGPUManager.exe --admin --install
+```
+
+Or install from the tray menu in the GUI.
+
+### Starting and stopping the service
+
+```powershell
+.\eGPUManager.exe --admin --start
+.\eGPUManager.exe --admin --stop
+```
+
+### Checking service status
+
+```powershell
+.\eGPUManager.exe --status
+```
+
+### Uninstalling the service
+
+```powershell
+.\eGPUManager.exe --admin --uninstall
+```
+
+You can also manage the installed service from the Windows Services panel (`services.msc`).
 
 ## **Troubleshooting**
 
